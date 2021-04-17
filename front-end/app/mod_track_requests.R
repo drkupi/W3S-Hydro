@@ -54,8 +54,8 @@ mod_track_requests_ui <- function(id){
 #' @noRd 
 mod_track_requests_server <- function(input, output, session){
   ns <- session$ns
-  final_zip <- NULL
-  work_dir <- "/w3s_jobs/"
+  final_zip <<- NULL
+  work_dir <<- "/w3s_jobs/"
   
   output$tr_slider <- renderUI({
     disabled(
@@ -89,7 +89,6 @@ mod_track_requests_server <- function(input, output, session){
       shinyjs::enable("tr_slider")
       shinyjs::enable("tr_download")
       final_zip <<- paste(work_dir, job_names[1], "/historicalData.zip", sep="")
-      print(final_zip)
     }
     else{
       updatePickerInput(
