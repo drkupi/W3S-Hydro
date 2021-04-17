@@ -221,26 +221,34 @@ mod_request_weather_server <- function(input, output, session){
       if(input$wd_format == 2){jobParams$data_format <<- "CSV"}
       
       jobId <- create_job_id()
-      status <- send_submission_email(jobId, jobParams$email)
-      print(class(status))
-      if(class(status) == 'try-error'){
-        sendSweetAlert(
-          session = session,
-          title = "Failed",
-          text = "Email was not sent successfully. Please provide a valid email.",
-          type = "error"
-        )
-      }
-      else{
-        submit_job(jobId, jobParams, selArea)
-        sendSweetAlert(
-          session = session,
-          title = "Submitted",
-          text = "Your data request has been submitted. You will shortly
-        receive an email confirmation.",
-          type = "success"
-        )
-      }
+      submit_job(jobId, jobParams, selArea)
+      sendSweetAlert(
+        session = session,
+        title = "Submitted",
+        text = "Your data request has been submitted. You will shortly
+      receive an email confirmation.",
+        type = "success"
+      )
+      # status <- send_submission_email(jobId, jobParams$email)
+      # print(class(status))
+      # if(class(status) == 'try-error'){
+      #   sendSweetAlert(
+      #     session = session,
+      #     title = "Failed",
+      #     text = "Email was not sent successfully. Please provide a valid email.",
+      #     type = "error"
+      #   )
+      # }
+      # else{
+      #   submit_job(jobId, jobParams, selArea)
+      #   sendSweetAlert(
+      #     session = session,
+      #     title = "Submitted",
+      #     text = "Your data request has been submitted. You will shortly
+      #   receive an email confirmation.",
+      #     type = "success"
+      #   )
+      # }
       
       insertUI(
         selector = "#placeholder_1",
