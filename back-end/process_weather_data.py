@@ -211,6 +211,7 @@ def process_request(job_id):
     folder_path = path + job_id
     if not os.path.exists(folder_path):
         os.mkdir(folder_path, mode = 0o777)
+        os.chmod(folder_path, 0o777)
 
     # Step 1 ---- Process job to create data files
     if df_request.loc[0, "data_type"] == "Historical":
