@@ -48,7 +48,8 @@ def intiate_jobs():
         _, _ = run_w3s_query(query, params=params)
     
     # Step 3 --- Update script logger
-    print("{} new jobs queued into system at : {}".format(len(df_requests), time.ctime()))
+    if len(df_requests) > 0:
+        print("{} new jobs queued into system at : {}".format(len(df_requests), time.ctime()))
 
 
 
@@ -72,10 +73,11 @@ def process_jobs():
         process_request(job_id)
 
     # Step 2 --- Update script logger
-    print("{} data jobs processed at : {}".format(len(df_requests), time.ctime()))    
+    if len(df_requests) > 0:
+        print("{} data jobs processed at : {}".format(len(df_requests), time.ctime()))    
 
 
-@tl.job(interval=timedelta(minutes=120))
+@tl.job(interval=timedelta(days=3))
 def clean_jobs():
     """Close all finished jobs that have been in system for 
        more than a week, and delete associated files
@@ -298,7 +300,6 @@ def prepare_prec_csv(df_request, df_pts, prec_data):
     
     # Step 1 ---- Prepare input files
     file_name = folder_path + '/precipitation.csv'
-    print(len(df_pts))
     for i in range(len(df_pts)):
         df = pd.DataFrame(columns=['date', 'lat', 'long', 'elev', 'precip'])
         df['date'] = date_array
