@@ -210,7 +210,7 @@ def process_request(job_id):
     path = config['file_path']
     folder_path = path + job_id
     if not os.path.exists(folder_path):
-        os.mkdir(folder_path)
+        os.mkdir(folder_path, mode = 0o777)
 
     # Step 1 ---- Process job to create data files
     if df_request.loc[0, "data_type"] == "Historical":
@@ -266,7 +266,7 @@ def prepare_prec_swat(df_request, df_pts, prec_data):
     path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
-        os.mkdir(folder_path)
+        os.mkdir(folder_path, mode = 0o777)
     
     # Step 1 ---- Prepare input files
     df_pts_final = df_pts[['lat', 'long', 'elevation']]
@@ -296,7 +296,7 @@ def prepare_prec_csv(df_request, df_pts, prec_data):
     path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
-        os.mkdir(folder_path)
+        os.mkdir(folder_path, mode = 0o777)
     
     # Step 1 ---- Prepare input files
     file_name = folder_path + '/precipitation.csv'
@@ -323,7 +323,7 @@ def prepare_temp_csv(df_request, df_pts, df_data):
     path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
-        os.mkdir(folder_path)
+        os.mkdir(folder_path, mode = 0o777)
     
     # Step 1 ---- Prepare input files
     file_name = folder_path + '/temperature.csv'
@@ -352,7 +352,7 @@ def prepare_temp_swat(df_request, df_pts, df_data):
     path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
-        os.mkdir(folder_path)
+        os.mkdir(folder_path, mode = 0o777)
     
     # Step 1 ---- Prepare input files
     df_pts_final = df_pts[['lat', 'long', 'elevation']]
