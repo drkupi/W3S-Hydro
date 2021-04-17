@@ -2,6 +2,7 @@ from typing import Tuple
 import psycopg2
 from io import StringIO
 import psycopg2.extras as extras
+import json
 
 
 def run_w3s_query(query: str, params: dict=None) -> Tuple[list, list]:
@@ -14,17 +15,14 @@ def run_w3s_query(query: str, params: dict=None) -> Tuple[list, list]:
     Returns:
         Tuple[list, list]: Return items of query
     """  
-    # Connect to postgres database
-    db_setting = {
-        "host": "localhost",
-        "name": "postgres",
-        "user": "postgres",
-        "password": "Drkupi2019!"
-    }
-    conn = psycopg2.connect(host=db_setting['host'],
-                            database=db_setting['name'],
-                            user=db_setting['user'],
-                            password=db_setting['password'],
+    
+    with open('config.json', 'r') as f:
+        db_setting = json.load(f)
+
+    conn = psycopg2.connect(host=db_setting['db_host'],
+                            database=db_setting['db_name'],
+                            user=db_setting['db_user'],
+                            password=db_setting['db_password'],
                             port=6543)
     if 'SELECT' in query:
         names, records = run_query(conn, query, params=params)

@@ -14,10 +14,12 @@ import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from timeloop import Timeloop
-
+import json
 
 tl = Timeloop()
 
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 @tl.job(interval=timedelta(seconds=11))
 def intiate_jobs():
@@ -109,7 +111,7 @@ def send_job_receipt_email(job_id, receiver_email):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "uog.water@gmail.com"  # Enter your address
-    password = input("Type your password and press enter: ")
+    password = config['email_pass']
     subject = "Processing W3S Data Request Number: " + job_id
     body = """\
 Dear Sir/Madam,
@@ -151,7 +153,7 @@ def send_job_completion_email(job_id, receiver_email):
     port = 465  # For SSL
     smtp_server = "smtp.gmail.com"
     sender_email = "uog.water@gmail.com"  # Enter your address
-    password = input("Type your password and press enter: ")
+    password = config['email_pass']
     subject = "W3S Request Complete - Req. Number: " + job_id
     body = """\
 Dear Sir/Madam,
@@ -203,7 +205,7 @@ def process_request(job_id):
     dates.append(datetime.strptime(df_request.loc[0, "end_date"], '%Y-%m-%d').date())
     job_id = df_request.loc[0, 'job_id']
     job_email = df_request.loc[0, 'email']
-    path = '/Users/taimoorakhtar/Documents/Datasets/w3s_data/'
+    path = config['file_path']
     folder_path = path + job_id
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
@@ -258,7 +260,7 @@ def prepare_prec_swat(df_request, df_pts, prec_data):
     # Step 0 ---- Create folder to save data in
     job_id = df_request.loc[0, 'job_id']
     start_date = df_request.loc[0, 'start_date'].replace('-', '')
-    path = '/Users/taimoorakhtar/Documents/Datasets/w3s_data/'
+    path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
@@ -288,7 +290,7 @@ def prepare_prec_csv(df_request, df_pts, prec_data):
     start_date = datetime.strptime(df_request.loc[0, "start_date"], '%Y-%m-%d').date()
     end_date = datetime.strptime(df_request.loc[0, "end_date"], '%Y-%m-%d').date()
     date_array = list(start_date + timedelta(days=x) for x in range(0, (end_date - start_date).days + 1))
-    path = '/Users/taimoorakhtar/Documents/Datasets/w3s_data/'
+    path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
@@ -316,7 +318,7 @@ def prepare_temp_csv(df_request, df_pts, df_data):
     start_date = datetime.strptime(df_request.loc[0, "start_date"], '%Y-%m-%d').date()
     end_date = datetime.strptime(df_request.loc[0, "end_date"], '%Y-%m-%d').date()
     date_array = list(start_date + timedelta(days=x) for x in range(0, (end_date - start_date).days + 1))
-    path = '/Users/taimoorakhtar/Documents/Datasets/w3s_data/'
+    path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
@@ -345,8 +347,7 @@ def prepare_temp_swat(df_request, df_pts, df_data):
     # Step 0 ---- Create folder to save data in
     job_id = df_request.loc[0, 'job_id']
     start_date = df_request.loc[0, 'start_date'].replace('-', '')
-    print(start_date)
-    path = '/Users/taimoorakhtar/Documents/Datasets/w3s_data/'
+    path = config['file_path']
     folder_path = path + job_id + '/files'
     if not os.path.exists(folder_path):
         os.mkdir(folder_path)
@@ -472,4 +473,4 @@ def get_cpc_data(job_id, dates):
 
     
 if __name__ == "__main__":
-   tl.start(block=True)
+    tl.start(block=True)

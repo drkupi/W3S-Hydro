@@ -37,13 +37,13 @@ RUN R -e "install.packages('plyr', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('rgdal', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('zip', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('RPostgres', repos='http://cran.rstudio.com/')"
-
+RUN R -e "install.packages('lwgeom', repos='http://cran.rstudio.com/')"
 
 # copy the app to the image
 COPY /app /srv/shiny-server/
 
 # select port
-EXPOSE 3841
+EXPOSE 3840
 
 # allow permission
 RUN sudo chown -R shiny:shiny /srv/shiny-server
