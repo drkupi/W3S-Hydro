@@ -111,13 +111,10 @@ send_submission_email <- function(jobId, email_address){
 get_requests <- function(email){
   
   # Step 1 --- Create unique jobId
-  con <- dbConnect(RPostgres::Postgres(), dbname='postgres',
-                   host='localhost', port=6543, user='postgres',
-                   password='Drkupi2019!')
   
-  # con <- dbConnect(RPostgres::Postgres(), dbname='postgres',
-  #                  host='172.17.0.5', port=6543, user='postgres',
-  #                  password='Drkupi2019!')
+  con <- dbConnect(RPostgres::Postgres(), dbname='postgres',
+                   host='172.17.0.5', port=6543, user='postgres',
+                   password='Drkupi2019!')
   
   query = paste0("SELECT job_id, sub_time, status, fin_time ",
                  "FROM world_climate.requests AS requests ",
