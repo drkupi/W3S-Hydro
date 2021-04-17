@@ -113,7 +113,6 @@ mod_track_requests_server <- function(input, output, session){
         paste("historicalData", "zip", sep=".")
       },
       content = function(file) {
-        shinyjs::disable("hist_downloadClimate")
         file.copy(final_zip, file)
       },
       contentType = "application/zip"
