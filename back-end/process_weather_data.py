@@ -243,6 +243,7 @@ def process_request(job_id):
 
         # Send email and update archive
         output_file = output_file + '.zip'
+        os.chmod(output_file, 0o777)
         current_time = datetime.now()
         if os.path.exists(output_file):
             status = send_job_completion_email(job_id, job_email)
