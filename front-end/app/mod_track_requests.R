@@ -89,6 +89,7 @@ mod_track_requests_server <- function(input, output, session){
       shinyjs::enable("tr_slider")
       shinyjs::enable("tr_download")
       final_zip <<- paste(work_dir, job_names[1], "/historicalData.zip", sep="")
+      print(final_zip)
     }
     else{
       updatePickerInput(
@@ -113,6 +114,7 @@ mod_track_requests_server <- function(input, output, session){
         paste("historicalData", "zip", sep=".")
       },
       content = function(file) {
+        print(final_zip)
         file.copy(final_zip, file)
       },
       contentType = "application/zip"
