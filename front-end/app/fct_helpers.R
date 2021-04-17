@@ -4,7 +4,7 @@ create_job_id <- function(){
   d <- as.POSIXct(Sys.time())
   jobId = format(d, format = "%Y_%b_%d_%H_%M_%OS3")
   con <- dbConnect(RPostgres::Postgres(), dbname='postgres',
-                   host='172.17.0.5', port=6543, user='postgres',
+                   host='172.17.0.5', port=5432, user='postgres',
                    password='Drkupi2019!')
   req_tbl <- DBI::Id(schema = "world_climate",
                      table = "requests")
@@ -47,7 +47,7 @@ submit_job <- function(jobId, jobParams, selArea){
   
   # Step 3 ----- Write data to DB
   con <- dbConnect(RPostgres::Postgres(), dbname='postgres',
-                   host='172.17.0.5', port=6543, user='postgres',
+                   host='172.17.0.5', port=5432, user='postgres',
                    password='Drkupi2019!')
   req_tbl <- DBI::Id(schema = "world_climate",
                      table = "requests")
@@ -113,7 +113,7 @@ get_requests <- function(email){
   # Step 1 --- Create unique jobId
   
   con <- dbConnect(RPostgres::Postgres(), dbname='postgres',
-                   host='172.17.0.5', port=6543, user='postgres',
+                   host='172.17.0.5', port=5432, user='postgres',
                    password='Drkupi2019!')
   
   query = paste0("SELECT job_id, sub_time, status, fin_time ",
