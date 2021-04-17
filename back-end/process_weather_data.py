@@ -245,7 +245,7 @@ def process_request(job_id):
         output_file = output_file + '.zip'
         current_time = datetime.now()
         if os.path.exists(output_file):
-            status = send_job_receipt_email(job_id, job_email)
+            status = send_job_completion_email(job_id, job_email)
         else:
             status = 'error-data'
         params = {"status": status, "cur_time": current_time, "job_id": job_id}
