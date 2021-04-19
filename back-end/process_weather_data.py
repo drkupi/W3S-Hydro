@@ -391,7 +391,7 @@ def get_prec_data(job_id, dates):
                  'FROM world_climate.prec_coords AS prec_coords ' 
                  'ORDER BY prec_coords.geom <-> ' 
                  '(SELECT geom FROM world_climate.requests AS requests ' 
-                 'WHERE requests.job_id = %(job_id)s) LIMIT 1')
+                 'WHERE requests.job_id = %(job_id)s LIMIT 1) LIMIT 1')
         names, records = run_w3s_query(query, params=params)
     df = pd.DataFrame(records, columns=names)
     toc = time.perf_counter()
@@ -450,7 +450,7 @@ def get_cpc_data(job_id, dates):
                  'FROM world_climate.temp_coords AS temp_coords ' 
                  'ORDER BY temp_coords.geom <-> ' 
                  '(SELECT geom FROM world_climate.requests AS requests ' 
-                 'WHERE requests.job_id = %(job_id)s) LIMIT 1')
+                 'WHERE requests.job_id = %(job_id)s LIMIT 1) LIMIT 1')
         names, records = run_w3s_query(query, params=params)
     df = pd.DataFrame(records, columns=names)
     toc = time.perf_counter()
